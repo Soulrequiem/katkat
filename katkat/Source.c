@@ -1,19 +1,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+
 struct Node {
 	int data;
 	struct Node* next;
-};
+}*head,*second,*third;
 
 void displayAll(struct Node* n) {
 	while (n != NULL) {
-		printf(" %d ", n->data);
+		printf(" %d \n", n->data);
 		n = n->next;
 	}
 }
 
-void insertFront(struct Node** head_ref, int x){
+void insertFront(struct Node** head_ref, int x) {
 	struct Node* n = (struct Node*)malloc(sizeof(struct Node));
 	n->data = x;
 	n->next = (*head_ref);
@@ -29,16 +30,16 @@ void insertRear(struct Node** head_ref, int x) {
 		*head_ref = n;
 		return;
 	};
-	while (last->next != NULL) 
+	while (last->next != NULL)
 		last = last->next;
-		last->next = n;
-		return;
-	
+	last->next = n;
+	return;
+
 };
 
 void insertAt(struct Node*head, int x, int p) {
 	struct Node*n, *temp;
-	n= (struct Node*)malloc(sizeof(struct Node));
+	n = (struct Node*)malloc(sizeof(struct Node));
 	if (n == NULL) {
 		printf("unable to allocate memory");
 	}
@@ -47,12 +48,12 @@ void insertAt(struct Node*head, int x, int p) {
 		n->next = NULL;
 		temp = head;
 
-		for (int i = 2; i <= p-1; i++) {
+		for (int i = 2; i <= p - 1; i++) {
 			temp = temp->next;
 			if (temp == NULL);
 			break;
 		}
-		if(temp!=NULL){
+		if (temp != NULL) {
 			n->next = temp->next;
 			temp->next = n;
 		}
@@ -60,25 +61,76 @@ void insertAt(struct Node*head, int x, int p) {
 
 };
 
-void deleteFront(struct Node**n) {
+void deleteFront() {
 
+	struct Node*n;
+	if (head == NULL) {
+		printf("List is already empty");
+	}
+	else
+	{
+		n = head;
+		head = head->next;
+		free(n);
+	}
 }
 
-void deleteRear(struct Node**n) {
+void deleteRear() {
+	struct Node *todelete, *secondlast;
 
+	if (head==NULL){
+		printf("List is already empty");
+	}
+	else {
+		todelete = head;
+		secondlast = head;
+
+		while (todelete->next != NULL) {
+			secondlast = todelete;
+			todelete = todelete->next;
+		}
+		if (todelete == head) {
+			head = NULL;
+		}
+		else {
+			secondlast->next = NULL;
+		}
+		free(todelete);
+
+	}
 }
 
-void deleteAt(struct Node**n, int p) {
+void deleteAt(int p) {
+	struct Node *todelete, *prenode;
+
+	if (head == NULL) {
+		printf("List is already Empty");
+	}
+	else {
+		todelete = head;
+		prenode = head;
+
+		for (int i = 2; i <= p; i++) {
+			prenode = todelete;
+			todelete = todelete->next;
+			if (todelete == NULL)
+				break;
+		}
+		if (todelete != NULL) {
+			if (todelete == head)
+				head = head->next;
+
+			prenode->next = todelete->next;
+			todelete->next = NULL;
+
+			free(todelete);
+		}
+	}
 
 }
 
 int main(int argc, char *argv[])
 {
-
-	struct Node* head = NULL;
-	struct Node* second = NULL;
-	struct Node* third = NULL;
-
 	head = (struct Node*)malloc(sizeof(struct Node));
 	second = (struct Node*)malloc(sizeof(struct Node));
 	third = (struct Node*)malloc(sizeof(struct Node));
@@ -92,13 +144,27 @@ int main(int argc, char *argv[])
 	third->data = 3;
 	third->next = NULL;
 
+	printf("Displaying all items in list \n");
 	displayAll(head);
+	printf("Insert 24 in front of list \n");
 	insertFront(&head, 24); 
     displayAll(head);
+	printf("Insert 4 in rear of list \n");
 	insertRear(&head, 4);
 	displayAll(head);
+	printf("Insert 21 at position 2 in list \n");
 	insertAt(head, 21, 2);
+	displayAll(head);
+	printf("Remove 24 from front of the list \n");
+	deleteFront();
+	displayAll(head);
+	printf("Remove 4 from end of the list \n");
+	deleteRear();
+	displayAll(head);
+	printf("Remove 2 from end of the list \n");
+	deleteAt(3);
 	displayAll(head);
 	system("PAUSE");
 	return 0;
 }
+
