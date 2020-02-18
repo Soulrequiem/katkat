@@ -132,13 +132,16 @@ void removeAt(int p) {
 			if (todelete == head) {
 				head = head->next;
 				head->prev = NULL;
+			} 
+			if(todelete->next != NULL) {
+				prenode->next = todelete->next;
+				todelete->next->prev = prenode;
 			}
-			prenode->next = todelete->next;
-			todelete->next->prev = prenode;
-
+			else if (todelete->next == NULL) {
+				prenode->next = NULL;
+			}
 			free(todelete);
 
-			//TODO: Remember to do case if it is the last node in the list
 		}
 	}
 };
@@ -196,8 +199,8 @@ int main() {
 	removeRear();
 	printList();
 
-	printf("delete value in the list at position 2 \n");
-	removeAt(2);
+	printf("delete value in the list at position 3 \n");
+	removeAt(3);
 	printList();
 
 	printMirror();
