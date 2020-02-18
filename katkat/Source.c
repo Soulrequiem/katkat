@@ -5,7 +5,7 @@
 struct Node {
 	int data;
 	struct Node* next;
-}*head,*second,*third; // Declaring 3 different nodes here, head, second and third
+}*head, *second, *third; // Declaring 3 different nodes here, head, second and third
 
 
 void displayAll(struct Node* n) {
@@ -41,19 +41,19 @@ void insertRear(struct Node** head_ref, int x) {
 void insertAt(int x, int p) {									//int x is for the data value, and int p is for the position value. both in integer values
 	struct Node*n, *temp;										//We declare 2 different nodes here, n and temp as we will use them in the function like a game of magical cups
 	n = (struct Node*)malloc(sizeof(struct Node));				//We initialize n here so that it can store data
-		n->data = x;											//We assign int x as the data value here
-		n->next = NULL;											//We set the pointer to the next node as null here temporarily
-		temp = head;											//We set the temp node to the head temporarily
+	n->data = x;												//We assign int x as the data value here
+	n->next = NULL;												//We set the pointer to the next node as null here temporarily
+	temp = head;												//We set the temp node to the head temporarily
 
-		for (int i = 2; i <= p - 1; i++) {						//A for loop is used to iterate through the entire list of nodes
-			temp = temp->next;									//We iterate through for i=2 and i less than P because we will be trying to find the place to put the node at.
-			if (temp == NULL);									//within the loop, you can see we set the pointer of temp to next, and the loop breaks when it reaches the end of the list
-			break;
-		}
-		if (temp != NULL) {										//The If conditional is to find the exact position of the node and set the new node in between them
-			n->next = temp->next;								//It checks if temp is not null, then set pointer to the n
-			temp->next = n;										//Set the pointer of the previous node to point to n
-		}
+	for (int i = 2; i <= p - 1; i++) {							//A for loop is used to iterate through the entire list of nodes
+		temp = temp->next;										//We iterate through for i=2 and i less than P because we will be trying to find the place to put the node at.
+		if (temp == NULL);										//within the loop, you can see we set the pointer of temp to next, and the loop breaks when it reaches the end of the list
+		break;
+	}
+	if (temp != NULL) {											//The If conditional is to find the exact position of the node and set the new node in between them
+		n->next = temp->next;									//It checks if temp is not null, then set pointer to the n
+		temp->next = n;											//Set the pointer of the previous node to point to n
+	}
 
 };
 
@@ -72,7 +72,7 @@ void deleteFront() {
 
 void deleteRear() {
 	struct Node *todelete, *secondlast;							//We declare 2 nodes to use within the function
-	if (head==NULL){											//If Condiitional to check if the list is empty
+	if (head == NULL) {											//If Condiitional to check if the list is empty
 		printf("List is already empty");
 	}
 	else {
@@ -140,8 +140,8 @@ int main(int argc, char *argv[])
 	printf("Displaying all items in list \n");
 	displayAll(head);
 	printf("Insert 24 in front of list \n");
-	insertFront(&head, 24); 
-    displayAll(head);
+	insertFront(&head, 24);
+	displayAll(head);
 	printf("Insert 4 in rear of list \n");
 	insertRear(&head, 4);
 	displayAll(head);
