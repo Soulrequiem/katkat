@@ -44,33 +44,103 @@ void insertRear(int x) {
 };
 
 void insertAt(int p, int x) {								
-	//
-	//struct Node *temp;
-	//struct Node* n = createNewNode(x);
-	//temp = head;
-	//for (int i = 2; i <= p - 1; i++) {
-	//	temp = temp->next;
-	//	if (temp == NULL);
-	//	break;
-	//}
-	//if (temp != NULL) {
-	//	n->next = temp->next; 
-	//	n->next->prev = n;
-	//	n->prev = temp;
-	//}
-	//
+	struct Node * temp;
+	struct Node * n = createNewNode(x);
+	if (head == NULL) {
+		printf("List is empty \n");
+	}
+	else
+	{
+		temp = head;
+		int i = 1;
+		while (i < p - 1 && temp != NULL) {
+			temp = temp->next;
+			i++;
+		}
+		if (p == 1) {
+			insertFront(x);
+		}
+		else if (temp == last) {
+			insertRear(x);
+		}
+		else if (temp!=NULL) {
+			n->next = temp->next;
+			n->prev = temp;
+			if (temp->next != NULL) {
+				temp->next->prev = n;
+			}
+			temp->next = n;
+		}
+	}
 };
 
 void removeFront() {
-
+	struct Node* n;
+	if (head == NULL) {
+		printf("List is already empty \n");
+	}
+	else {
+		n = head;
+		head = head->next;
+		head -> prev = NULL;
+		free(n);
+	}
 }
 
 void removeRear() {
+	struct Node* last, *secondlast;
+	if (head == NULL) {
+		printf("List is already empty \n");
+	}
+	else {
+		last = head;
+		secondlast = head;
+		while (last->next != NULL) {
+			secondlast = last;
+			last = last->next;
+			
+		}
+		if (last == head) {
+			head = NULL;
+			head->prev = NULL;
+			head->next = NULL;
+		}
+		else {
+			secondlast->next = NULL;
+		}
+		free(last);
+	}
 
 };
 
-void removeAt() {
+void removeAt(int p) {
+	struct Node *todelete, *prenode;
+	if (head == NULL) {
+		printf("List is already empty");
+	}
+	else {
+		todelete = head;
+		prenode = head;
 
+		for (int i = 2; i <= p; i++) {
+			prenode = todelete;
+			todelete = todelete->next;
+			if (todelete == NULL)
+				break;
+		}
+		if (todelete != NULL) {
+			if (todelete == head) {
+				head = head->next;
+				head->prev = NULL;
+			}
+			prenode->next = todelete->next;
+			todelete->next->prev = prenode;
+
+			free(todelete);
+
+			//TODO: Remember to do case if it is the last node in the list
+		}
+	}
 };
 
 void printList() {
@@ -104,7 +174,7 @@ int main() {
 	printf("Insert value of 10 at head \n");
 	insertFront(10);
 	printList();
-
+	
 	printf("Insert value of 11 at head \n");
 	insertFront(11);
 	printList();
@@ -112,10 +182,25 @@ int main() {
 	printf("Insert value of 38 at rear \n");
 	insertRear(38);
 	printList();
-
+	
 	printf("Insert value of 24 at position 2 \n");
 	insertAt(2, 24);
 	printList();
+	printf("printing list in reverse \n");
+	
+	printf("delete first value in list \n");
+	removeFront();
+	printList();
+	
+	printf("delete last value in list \n");
+	removeRear();
+	printList();
+
+	printf("delete value in the list at position 2 \n");
+	removeAt(2);
+	printList();
+
+	printMirror();
 	
 	system("PAUSE");
 	return 0;
